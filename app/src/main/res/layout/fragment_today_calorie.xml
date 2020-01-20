@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.TodayCalorie">
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+                <hiennguyen.me.circleseekbar.CircleSeekBar
+                    android:id="@+id/circular"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:padding="64dp"
+                    app:csb_arcColor="@color/colorAccent"
+                    app:csb_arcWidth="10dp"
+                    app:csb_max="1000"
+                    app:csb_min="10"
+                    app:csb_progress="300"
+                    app:csb_progressColor="@color/color_text"
+                    app:csb_progressWidth="12dp"
+                    app:csb_step="5"
+                    app:csb_textColor="@color/colorPrimary"
+                    app:csb_textSize="36sp"
+                    app:csb_thumbSize="36dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Calories !-->
+
+                <hiennguyen.me.circleseekbar.CircleSeekBar
+                    android:id="@+id/pb_calorie"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:progressDrawable="@drawable/circle_progress_bar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_calories_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="42dp"
+                    android:layout_toEndOf="@id/pb_calorie"
+                    android:text="Calories"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@+id/pb_calorie"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_caloriesProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_calories_title"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toEndOf="@id/pb_calorie"
+                    android:text="Calories progress"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/pb_calorie"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_calories_title" />
+
+
+                <!-- Proteins !-->
+
+                <ProgressBar
+                    android:id="@+id/pb_proteins"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_below="@id/tv_caloriesProgress"
+                    android:layout_marginTop="16dp"
+                    android:progressDrawable="@drawable/circle_progress_bar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pb_fats" />
+
+                <TextView
+                    android:id="@+id/tv_proteins_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_caloriesProgress"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@id/pb_proteins"
+                    android:text="Proteins"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@+id/pb_fats"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_fatsProgress" />
+
+                <TextView
+                    android:id="@+id/tv_proteinsProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_proteins_title"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_toEndOf="@id/pb_proteins"
+                    android:text="Proteins progress"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/pb_fats"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_proteins_title" />
+
+                <!-- Fats !-->
+                <ProgressBar
+                    android:id="@+id/pb_fats"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_below="@id/pb_proteins"
+                    android:layout_marginTop="16dp"
+                    android:progressDrawable="@drawable/circle_progress_bar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pb_carbohydrates" />
+
+                <TextView
+                    android:id="@+id/tv_fats_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_toEndOf="@id/pb_calorie"
+                    android:text="Fats"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@+id/pb_carbohydrates"
+                    app:layout_constraintTop_toBottomOf="@+id/pb_calorie" />
+
+                <TextView
+                    android:id="@+id/tv_fatsProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_toEndOf="@id/pb_calorie"
+                    android:text="Fats progress"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/pb_carbohydrates"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_fats_title" />
+
+                <!-- Carbohydrates !-->
+                <ProgressBar
+                    android:id="@+id/pb_carbohydrates"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="32dp"
+                    android:progressDrawable="@drawable/circle_progress_bar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pb_calorie" />
+
+                <TextView
+                    android:id="@+id/tv_carbohydrates_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_toEndOf="@id/pb_calorie"
+                    android:text="Carbohydrates"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@+id/pb_proteins"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_proteinsProgress" />
+
+                <TextView
+                    android:id="@+id/tv_carbohydratesProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toEndOf="@id/pb_calorie"
+                    android:text="Carbohydrates progress"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/pb_proteins"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_carbohydrates_title" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>
