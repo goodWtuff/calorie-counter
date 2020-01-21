@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caloriecounter.Constants;
+import com.example.caloriecounter.Models.FoodEntity;
 import com.example.caloriecounter.R;
 import com.example.caloriecounter.ui.Adapters.AutocompleteAdapter;
 
@@ -49,16 +50,22 @@ public class FoodSearchActivity extends AppCompatActivity {
         et_foodSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FoodEntity entity = (FoodEntity) parent.getItemAtPosition(position);
+
+                //If delete this command, some dummy text will be in edit text
+                et_foodSearch.setText(entity.getName());
+
                 //Start add food activity
-                Intent intent = new Intent(getApplicationContext(),FoodSearchActivity.class);
-                intent.putExtra(Constants.ADD_CALORIES, 0);
-                intent.putExtra(Constants.ADD_PROTEINS, 0);
-                intent.putExtra(Constants.ADD_FATS, 0);
-                intent.putExtra(Constants.ADD_NAME, 0);
-                intent.putExtra(Constants.ADD_CARBOHYDRATES, 0);
+                Intent intent = new Intent(getApplicationContext(),AddFoodActivity.class);
+                intent.putExtra(Constants.ADD_CALORIES, entity.getCalories());
+                intent.putExtra(Constants.ADD_PROTEINS, entity.getProteins());
+                intent.putExtra(Constants.ADD_FATS, entity.getFats());
+                intent.putExtra(Constants.ADD_NAME, entity.getName());
+                intent.putExtra(Constants.ADD_CARBOHYDRATES, entity.getCarbohydrates());
                 intent.putExtra(Constants.INGESTION_TIME, ingestionTime);
 
                 startActivity(intent);
+
 
 
             }
@@ -73,7 +80,6 @@ public class FoodSearchActivity extends AppCompatActivity {
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             switch (actionId) {
                 case EditorInfo.IME_ACTION_SEARCH:
-                    Toast.makeText(getApplicationContext(),"SEARCH",Toast.LENGTH_SHORT).show();
                     hideKeyboard(FoodSearchActivity.this);
                   break;
             }

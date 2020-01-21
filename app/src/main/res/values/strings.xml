@@ -20,4 +20,8 @@
     <string name="proteins">Proteins</string>
     <string name="food_search">Food search</string>
     <string name="dish">Dish</string>
+    <string name="enter_portion_size">Enter portion size</string>
+    <string name="enter_portion_size_g">Enter portion size (g)</string>
+    <string name="add_food">ADD FOOD</string>
+    <string name="_100">100</string>
 </resources>
