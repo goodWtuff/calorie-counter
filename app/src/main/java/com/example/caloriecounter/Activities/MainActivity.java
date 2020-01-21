@@ -114,4 +114,5 @@ public class MainActivity extends AppCompatActivity {
         //Restore view pager position
         viewPager.setCurrentItem(savedInstanceState.getInt(Constants.VIEWPAGER_ITEM));
     }
+
 }

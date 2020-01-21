@@ -1,6 +1,7 @@
 package com.example.caloriecounter.ui.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.caloriecounter.Activities.FoodSearchActivity;
+import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -37,12 +40,15 @@ public class IngestionListAdapter extends RecyclerView.Adapter<IngestionListAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.tv_name.setText(ingestionList.get(position));
         holder.b_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Open add food activity
+                //Open food search activity with ingestion title
+                Intent intent = new Intent(context, FoodSearchActivity.class);
+                intent.putExtra(Constants.INGESTION_NAME, ingestionList.get(position));
+                context.startActivity(intent);
             }
         });
     }

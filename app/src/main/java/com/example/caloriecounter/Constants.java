@@ -1,5 +1,7 @@
 package com.example.caloriecounter;
 
+import android.provider.BaseColumns;
+
 public class Constants {
     public static final String VIEWPAGER_ITEM = "CalorieCounter.MainActivity.viewpager_item";
     public static final int CODE_LOGIN = 11;
@@ -14,4 +16,5 @@ public class Constants {
 
     public static final String RECOMMENDED_CALORIE_AMOUNT = "CalorieCounter.MainActivity.RECOMMENDED_CALORIE_AMOUNT";
 
+    public final static String INGESTION_NAME = "CalorieCounter.IngestionListAdapter.ingestionName";
 }

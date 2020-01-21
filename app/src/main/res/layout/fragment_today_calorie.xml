@@ -28,35 +28,22 @@
                 android:layout_height="match_parent"
                 android:padding="16dp">
 
-                <hiennguyen.me.circleseekbar.CircleSeekBar
-                    android:id="@+id/circular"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:padding="64dp"
-                    app:csb_arcColor="@color/colorAccent"
-                    app:csb_arcWidth="10dp"
-                    app:csb_max="1000"
-                    app:csb_min="10"
-                    app:csb_progress="300"
-                    app:csb_progressColor="@color/color_text"
-                    app:csb_progressWidth="12dp"
-                    app:csb_step="5"
-                    app:csb_textColor="@color/colorPrimary"
-                    app:csb_textSize="36sp"
-                    app:csb_thumbSize="36dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <!-- Calories !-->
-
-                <hiennguyen.me.circleseekbar.CircleSeekBar
+                <io.feeeei.circleseekbar.CircleSeekBar
+                    app:wheel_max_process="100"
+                    app:wheel_reached_color="@color/colorAccent"
+                    app:wheel_unreached_color="#a9a9a9"
+                    app:wheel_pointer_radius="0dp"
+                    app:wheel_reached_width="13dp"
+                    app:wheel_unreached_width="13dp"
+                    app:wheel_scroll_only_one_circle="true"
+                    app:wheel_can_touch="false"
                     android:id="@+id/pb_calorie"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:progressDrawable="@drawable/circle_progress_bar"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -86,17 +73,25 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_calories_title" />
 
 
-                <!-- Proteins !-->
 
-                <ProgressBar
-                    android:id="@+id/pb_proteins"
+                <!-- Carbohydrates !-->
+                <io.feeeei.circleseekbar.CircleSeekBar
+                    app:wheel_max_process="100"
+                    app:wheel_reached_color="@color/colorAccent"
+                    app:wheel_unreached_color="#a9a9a9"
+                    app:wheel_pointer_radius="0dp"
+                    app:wheel_reached_width="10dp"
+                    app:wheel_unreached_width="10dp"
+                    app:wheel_scroll_only_one_circle="true"
+                    app:wheel_can_touch="false"
+                    android:id="@+id/pb_carbohydrates"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_below="@id/tv_caloriesProgress"
                     android:layout_marginTop="16dp"
                     android:progressDrawable="@drawable/circle_progress_bar"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pb_fats" />
+                    app:layout_constraintTop_toBottomOf="@id/pb_proteins" />
 
                 <TextView
                     android:id="@+id/tv_proteins_title"
@@ -105,11 +100,11 @@
                     android:layout_below="@+id/tv_caloriesProgress"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="15dp"
-                    android:layout_toEndOf="@id/pb_proteins"
-                    android:text="Proteins"
+                    android:layout_toEndOf="@id/pb_carbohydrates"
+                    android:text="@string/proteins"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/pb_fats"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_fatsProgress" />
+                    app:layout_constraintStart_toEndOf="@id/pb_proteins"
+                    app:layout_constraintTop_toBottomOf="@id/tv_fatsProgress" />
 
                 <TextView
                     android:id="@+id/tv_proteinsProgress"
@@ -118,22 +113,32 @@
                     android:layout_below="@id/tv_proteins_title"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="11dp"
-                    android:layout_toEndOf="@id/pb_proteins"
+                    android:layout_toEndOf="@id/pb_carbohydrates"
                     android:text="Proteins progress"
                     android:textSize="16sp"
-                    app:layout_constraintStart_toEndOf="@+id/pb_fats"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_proteins_title" />
+                    app:layout_constraintStart_toEndOf="@id/pb_proteins"
+                    app:layout_constraintTop_toBottomOf="@id/tv_proteins_title" />
 
-                <!-- Fats !-->
-                <ProgressBar
-                    android:id="@+id/pb_fats"
+
+                <!-- Proteins !-->
+
+                <io.feeeei.circleseekbar.CircleSeekBar
+                    android:id="@+id/pb_proteins"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:layout_below="@id/pb_proteins"
+                    android:layout_below="@id/pb_fats"
                     android:layout_marginTop="16dp"
                     android:progressDrawable="@drawable/circle_progress_bar"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pb_carbohydrates" />
+                    app:layout_constraintTop_toBottomOf="@+id/pb_fats"
+                    app:wheel_can_touch="false"
+                    app:wheel_max_process="100"
+                    app:wheel_pointer_radius="0dp"
+                    app:wheel_reached_color="@color/colorAccent"
+                    app:wheel_reached_width="10dp"
+                    app:wheel_scroll_only_one_circle="true"
+                    app:wheel_unreached_color="#a9a9a9"
+                    app:wheel_unreached_width="10dp" />
 
                 <TextView
                     android:id="@+id/tv_fats_title"
@@ -142,7 +147,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_toEndOf="@id/pb_calorie"
-                    android:text="Fats"
+                    android:text="@string/fats"
                     android:textSize="20sp"
                     app:layout_constraintStart_toEndOf="@+id/pb_carbohydrates"
                     app:layout_constraintTop_toBottomOf="@+id/pb_calorie" />
@@ -160,9 +165,18 @@
                     app:layout_constraintStart_toEndOf="@+id/pb_carbohydrates"
                     app:layout_constraintTop_toBottomOf="@+id/tv_fats_title" />
 
-                <!-- Carbohydrates !-->
-                <ProgressBar
-                    android:id="@+id/pb_carbohydrates"
+
+                <!-- Fats !-->
+                <io.feeeei.circleseekbar.CircleSeekBar
+                    app:wheel_max_process="100"
+                    app:wheel_reached_color="@color/colorAccent"
+                    app:wheel_unreached_color="#a9a9a9"
+                    app:wheel_pointer_radius="0dp"
+                    app:wheel_reached_width="10dp"
+                    app:wheel_unreached_width="10dp"
+                    app:wheel_scroll_only_one_circle="true"
+                    app:wheel_can_touch="false"
+                    android:id="@+id/pb_fats"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerVertical="true"
@@ -178,7 +192,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="17dp"
                     android:layout_toEndOf="@id/pb_calorie"
-                    android:text="Carbohydrates"
+                    android:text="@string/carbohydrates"
                     android:textSize="20sp"
                     app:layout_constraintStart_toEndOf="@+id/pb_proteins"
                     app:layout_constraintTop_toBottomOf="@+id/tv_proteinsProgress" />
@@ -200,6 +214,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_todayFoodEaten"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"

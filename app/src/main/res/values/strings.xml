@@ -15,4 +15,8 @@
     <string name="enter_your_age">Enter your age</string>
     <string name="breakfast">Breakfast</string>
     <string name="summary">Summary</string>
+    <string name="carbohydrates">Carbohydrates</string>
+    <string name="fats">Fats</string>
+    <string name="proteins">Proteins</string>
+    <string name="food_search">Food search</string>
 </resources>
