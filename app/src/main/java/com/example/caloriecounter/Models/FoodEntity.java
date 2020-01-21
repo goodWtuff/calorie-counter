@@ -1,52 +1,62 @@
 package com.example.caloriecounter.Models;
 
 public class FoodEntity {
-    private int fats;
-    private int carbohydrates;
-    private int proteins;
-    private int name;
+    private String name;
+    private double  calories;
+    private double fats;
+    private double  carbohydrates;
+    private double  proteins;
     private String date;
     private String ingestionTime;
 
-    public FoodEntity(int fats, int carbohydrates, int proteins, int name, String date, String ingestionTime) {
+    public FoodEntity(String name, double calories, double fats, double carbohydrates, double proteins, String date, String ingestionTime) {
+        this.name = name;
+        this.calories = calories;
         this.fats = fats;
         this.carbohydrates = carbohydrates;
         this.proteins = proteins;
-        this.name = name;
         this.date = date;
         this.ingestionTime = ingestionTime;
     }
 
-    public int getFats() {
-        return fats;
-    }
-
-    public void setFats(int fats) {
-        this.fats = fats;
-    }
-
-    public int getCarbohydrates() {
-        return carbohydrates;
-    }
-
-    public void setCarbohydrates(int carbohydrates) {
-        this.carbohydrates = carbohydrates;
-    }
-
-    public int getProteins() {
-        return proteins;
-    }
-
-    public void setProteins(int proteins) {
-        this.proteins = proteins;
-    }
-
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public double getCalories() {
+        return calories;
+    }
+
+    public void setCalories(double calories) {
+        this.calories = calories;
+    }
+
+    public double getFats() {
+        return fats;
+    }
+
+    public void setFats(double fats) {
+        this.fats = fats;
+    }
+
+    public double getCarbohydrates() {
+        return carbohydrates;
+    }
+
+    public void setCarbohydrates(double carbohydrates) {
+        this.carbohydrates = carbohydrates;
+    }
+
+    public double getProteins() {
+        return proteins;
+    }
+
+    public void setProteins(double proteins) {
+        this.proteins = proteins;
     }
 
     public String getDate() {

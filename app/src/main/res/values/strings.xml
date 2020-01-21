@@ -19,4 +19,5 @@
     <string name="fats">Fats</string>
     <string name="proteins">Proteins</string>
     <string name="food_search">Food search</string>
+    <string name="dish">Dish</string>
 </resources>

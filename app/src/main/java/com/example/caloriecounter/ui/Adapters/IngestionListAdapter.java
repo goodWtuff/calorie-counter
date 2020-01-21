@@ -47,7 +47,7 @@ public class IngestionListAdapter extends RecyclerView.Adapter<IngestionListAdap
             public void onClick(View v) {
                 //Open food search activity with ingestion title
                 Intent intent = new Intent(context, FoodSearchActivity.class);
-                intent.putExtra(Constants.INGESTION_NAME, ingestionList.get(position));
+                intent.putExtra(Constants.INGESTION_TIME, ingestionList.get(position));
                 context.startActivity(intent);
             }
         });
