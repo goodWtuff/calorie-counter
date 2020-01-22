@@ -6,7 +6,7 @@ public class FoodDatabaseContract {
 
     public FoodDatabaseContract() {}
 
-    public static final class FoodEntry implements BaseColumns {
+    public static final class FoodColumns implements BaseColumns {
         public static final String TABLE_NAME = "foodList";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_FATS = "fats";

@@ -8,16 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-
 import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.Models.FoodEntity;
 import com.example.caloriecounter.R;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -169,16 +165,15 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
                 continue;
             }
 
-            String ingestionTime = null;
-            String date = null;
 
             //Numbers can be really big, so we round them to 2 places
+            //And add to list
             foodEntities.add(new FoodEntity(name,
                     round(calories, 2),
                     round(fats, 2),
                     round(carbohydrates, 2),
                     round(proteins, 2),
-                    date, ingestionTime));
+                    null));
         }
 
         return foodEntities;
@@ -186,7 +181,6 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
 
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
-
         long factor = (long) Math.pow(10, places);
         value = value * factor;
         long tmp = Math.round(value);

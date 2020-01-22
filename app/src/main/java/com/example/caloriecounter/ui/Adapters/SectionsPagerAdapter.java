@@ -1,8 +1,6 @@
 package com.example.caloriecounter.ui.Adapters;
 
-import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,9 +14,9 @@ import com.example.caloriecounter.Fragments.TodayMenu;
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
-    int recommendedCalorieAmount;
+    private int recommendedCalorieAmount;
 
-    private static final String[] TAB_TITLES = new String[]{"Main", "Menu"};
+    private static final String[] TAB_TITLES = new String[]{"Calories", "Menu"};
 
 
     public SectionsPagerAdapter(FragmentManager fm, int recommendedCalorieAmount) {

@@ -6,17 +6,15 @@ public class FoodEntity {
     private double fats;
     private double  carbohydrates;
     private double  proteins;
-    private String date;
-    private String ingestionTime;
+    private String ingestionName;
 
-    public FoodEntity(String name, double calories, double fats, double carbohydrates, double proteins, String date, String ingestionTime) {
+    public FoodEntity(String name, double calories, double fats, double carbohydrates, double proteins, String ingestionName) {
         this.name = name;
         this.calories = calories;
         this.fats = fats;
         this.carbohydrates = carbohydrates;
         this.proteins = proteins;
-        this.date = date;
-        this.ingestionTime = ingestionTime;
+        this.ingestionName = ingestionName;
     }
 
     public String getName() {
@@ -59,19 +57,11 @@ public class FoodEntity {
         this.proteins = proteins;
     }
 
-    public String getDate() {
-        return date;
+    public String getIngestionName() {
+        return ingestionName;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getIngestionTime() {
-        return ingestionTime;
-    }
-
-    public void setIngestionTime(String ingestionTime) {
-        this.ingestionTime = ingestionTime;
+    public void setIngestionName(String ingestionName) {
+        this.ingestionName = ingestionName;
     }
 }

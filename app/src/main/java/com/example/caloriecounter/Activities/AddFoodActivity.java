@@ -2,6 +2,7 @@ package com.example.caloriecounter.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.caloriecounter.Constants;
+import com.example.caloriecounter.Database.DatabaseHelper;
+import com.example.caloriecounter.Database.FoodDatabaseContract;
+import com.example.caloriecounter.Models.FoodEntity;
 import com.example.caloriecounter.R;
 import com.example.caloriecounter.ui.Adapters.IngestionListAdapter;
 
@@ -56,7 +60,8 @@ public class AddFoodActivity extends AppCompatActivity {
         tv_proteins = findViewById(R.id.tv_proteins);
 
         tv_dish_name = findViewById(R.id.tv_dish_name);
-        tv_dish_name.setText(foodName.substring(0, 1).toUpperCase() + foodName.substring(1));
+        //Make first letter capital and rest lowercase
+        tv_dish_name.setText(foodName.substring(0, 1).toUpperCase() + foodName.substring(1).toLowerCase());
 
         //When user update weight, statistics and data also update
         et_portion_size = findViewById(R.id.et_portion_size);
@@ -77,9 +82,10 @@ public class AddFoodActivity extends AppCompatActivity {
                 weightCoeff = Integer.parseInt(et_portion_size.getText().toString()) / 100;
 
                 //Add to database
+                DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+                databaseHelper.addFoodToDatabase(new FoodEntity(foodName,calories,fats,carbohydrates,proteins,ingestionName));
 
-
-                finish();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
     }

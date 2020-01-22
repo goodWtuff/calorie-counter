@@ -1,7 +1,10 @@
 package com.example.caloriecounter.Fragments;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -10,7 +13,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.caloriecounter.Constants;
+import com.example.caloriecounter.Database.DatabaseHelper;
+import com.example.caloriecounter.Database.FoodDatabaseContract;
 import com.example.caloriecounter.R;
+import com.example.caloriecounter.ui.Adapters.TodayFoodEatenAdapter;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import io.feeeei.circleseekbar.CircleSeekBar;
 
@@ -39,7 +49,12 @@ public class TodayCalorie extends Fragment {
 
     //Recycler view
     private RecyclerView rv_foodTodayEaten;
+    private TodayFoodEatenAdapter foodListAdapter;
 
+
+    //Database
+    private DatabaseHelper databaseHelper;
+    private SQLiteDatabase database;
 
     //Fragment new instance helper
     public static TodayCalorie newInstance(int recommendedCalorieAmount) {
@@ -50,9 +65,13 @@ public class TodayCalorie extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Database initialization
+        databaseHelper = new DatabaseHelper(getContext());
+        database = databaseHelper.getWritableDatabase();
     }
 
     @Override
@@ -86,6 +105,11 @@ public class TodayCalorie extends Fragment {
         pb_proteins = v.findViewById(R.id.pb_proteins);
 
         rv_foodTodayEaten = v.findViewById(R.id.rv_todayFoodEaten);
+        initRecyclerView();
+
+
+
+
 
     }
 
@@ -104,6 +128,9 @@ public class TodayCalorie extends Fragment {
 
     //Update statistic
     private void updateStatisticViews(){
+        //Calculates current nutrients amount according to information from database
+        calculateCurrentNutrients(getFoodByDate(getDate()));
+
         tv_calorieProgress.setText(calorieAmount+ " out of " + recommendedCalorieAmount);
         tv_carbohydratesProgress.setText(carbohydratesAmount+ " out of " + recommendedCarbohydratesAmount);
         tv_proteinsProgress.setText(proteinsAmount + " out of " + recommendedProteinsAmount);
@@ -114,5 +141,44 @@ public class TodayCalorie extends Fragment {
         pb_fats.setCurProcess(fatsAmount);
         pb_calories.setCurProcess(calorieAmount);
     }
+
+    //Recycler view initialization
+    private void initRecyclerView(){
+        rv_foodTodayEaten.setLayoutManager(new LinearLayoutManager(getContext()));
+        foodListAdapter = new TodayFoodEatenAdapter(getContext(),getFoodByDate(getDate()));
+        foodListAdapter.swapCursor(getFoodByDate(getDate()));
+        rv_foodTodayEaten.setAdapter(foodListAdapter);
+    }
+
+    //Get current date and time
+    private String getDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+    //Get food from database by date
+    private Cursor getFoodByDate(String date){
+        String selection = FoodDatabaseContract.FoodColumns.COLUMN_DATE + " = " + date;
+        return database.query(FoodDatabaseContract.FoodColumns.TABLE_NAME,null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    //Calculates current nutrients amount according to information from database
+    private void calculateCurrentNutrients(Cursor cursor){
+        while (cursor.moveToNext()){
+            proteinsAmount += (int) Math.round(cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_PROTEINS)));
+            fatsAmount += (int) Math.round(cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_FATS)));
+            calorieAmount += (int) Math.round(cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_CALORIES)));
+            carbohydratesAmount += (int) Math.round(cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_CARBOHYDRATES)));
+        }
+
+    }
+
 
 }
