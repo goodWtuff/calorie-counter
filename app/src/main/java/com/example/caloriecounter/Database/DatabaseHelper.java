@@ -1,11 +1,17 @@
 package com.example.caloriecounter.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.caloriecounter.Database.FoodContract.*;
+import com.example.caloriecounter.Database.FoodDatabaseContract.*;
+import com.example.caloriecounter.Models.FoodEntity;
 
 import androidx.annotation.Nullable;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "CalorieCounter.db";
@@ -24,10 +30,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 FoodEntry.TABLE_NAME + " (" +
                 FoodEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 FoodEntry.COLUMN_NAME + " TEXT NOT NULL, " +
-                FoodEntry.COLUMN_CARBOHYDRATES + " INTEGER NOT NULL, " +
-                FoodEntry.COLUMN_FATS  + " INTEGER NOT NULL, " +
-                FoodEntry.COLUMN_PROTEINS  + " INTEGER NOT NULL, " +
-                FoodEntry.COLUMN_DATE + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+                FoodEntry.COLUMN_CARBOHYDRATES + " REAL NOT NULL, " +
+                FoodEntry.COLUMN_FATS  + " REAL NOT NULL, " +
+                FoodEntry.COLUMN_PROTEINS  + " REAL NOT NULL, " +
+                FoodEntry.COLUMN_DATE + " TIMESTAMP DEFAULT CURRENT_DATE, " +
                 FoodEntry.COLUMN_INGESTION_TIME  + " TEXT NOT NULL" +
                 "); ";
 
@@ -39,4 +45,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + FoodEntry.TABLE_NAME);
         onCreate(db);
     }
+
+    private void addFoodToDatabase(FoodEntity foodEntity){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(FoodEntry.COLUMN_NAME, foodEntity.getName());
+        contentValues.put(FoodEntry.COLUMN_PROTEINS, foodEntity.getProteins());
+        contentValues.put(FoodEntry.COLUMN_CARBOHYDRATES, foodEntity.getCarbohydrates());
+        contentValues.put(FoodEntry.COLUMN_FATS, foodEntity.getFats());
+        contentValues.put(FoodEntry.COLUMN_INGESTION_TIME, foodEntity.getIngestionTime());
+        db.insert(FoodEntry.TABLE_NAME,null,contentValues);
+    }
+
+
 }
