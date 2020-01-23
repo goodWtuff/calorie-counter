@@ -14,13 +14,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.caloriecounter.AutoComplete.LoadingAutoCompleteEditText;
 import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.Models.FoodEntity;
 import com.example.caloriecounter.R;
 import com.example.caloriecounter.AutoComplete.AutocompleteAdapter;
 
 public class FoodSearchActivity extends AppCompatActivity {
-    private AutoCompleteTextView et_foodSearch;
+    private LoadingAutoCompleteEditText et_foodSearch;
     private AutocompleteAdapter foodSearchAdapter;
     private String ingestionTime;
     private ProgressBar pb_food_search;
@@ -46,6 +47,7 @@ public class FoodSearchActivity extends AppCompatActivity {
         et_foodSearch = findViewById(R.id.et_foodSearch);
         foodSearchAdapter = new AutocompleteAdapter(getApplicationContext(), android.R.layout.simple_dropdown_item_1line);
         et_foodSearch.setAdapter(foodSearchAdapter);
+        et_foodSearch.setLoadingIndicator(pb_food_search);
 
         et_foodSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

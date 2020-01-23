@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <AutoCompleteTextView
+        <com.example.caloriecounter.AutoComplete.LoadingAutoCompleteEditText
             android:id="@+id/et_foodSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

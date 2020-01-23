@@ -32,9 +32,6 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
         foodList = new ArrayList<>();
     }
 
-    public void setProgressBar(ProgressBar progressBar) {
-        this.progressBar = progressBar;
-    }
 
     @Override
     public int getCount() {
