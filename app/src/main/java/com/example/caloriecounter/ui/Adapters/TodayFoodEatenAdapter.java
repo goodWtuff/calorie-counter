@@ -10,11 +10,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.Database.DatabaseHelper;
 import com.example.caloriecounter.Database.FoodDatabaseContract;
+import com.example.caloriecounter.Fragments.FoodInfoDialog;
+import com.example.caloriecounter.Models.FoodEntity;
 import com.example.caloriecounter.R;
 
 public class TodayFoodEatenAdapter extends RecyclerView.Adapter<TodayFoodEatenAdapter.ViewHolder> {
@@ -39,18 +42,36 @@ public class TodayFoodEatenAdapter extends RecyclerView.Adapter<TodayFoodEatenAd
             return;
         }
 
-        String name = cursor.getString(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_NAME));
-        double calories = cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_CALORIES));
+        //Parse data from database
+        final String name = cursor.getString(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_NAME));
+        final String ingestionTime = cursor.getString(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_INGESTION_TIME));
+        final double calories = cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_CALORIES));
+        final double fats = cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_FATS));
+        final double carbohydrates = cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_CARBOHYDRATES));
+        final double proteins = cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_PROTEINS));
         long id  = cursor.getLong(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns._ID));
-
-
-        Log.d(Constants.TAG, "onBindViewHolder: " + cursor.getString(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_DATE)));
 
         //Make first letter capital and rest lowercase
         holder.tv_food_name.setText(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
         holder.tv_food_calories.setText(calories + " kcal");
         holder.itemView.setTag(id);
 
+
+        //If item clicked, show dialog with food info
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FoodEntity foodEntity = new FoodEntity(name,calories,fats,carbohydrates,proteins,ingestionTime);
+                showInfoDialog(foodEntity);
+            }
+        });
+
+    }
+
+    //Shows dialog with food info
+    private void showInfoDialog(FoodEntity entity){
+        FoodInfoDialog dialog = new FoodInfoDialog(entity);
+        dialog.show(((AppCompatActivity)context).getSupportFragmentManager(),Constants.TAG);
     }
 
     @Override
@@ -62,7 +83,7 @@ public class TodayFoodEatenAdapter extends RecyclerView.Adapter<TodayFoodEatenAd
         private TextView tv_food_name;
         private TextView tv_food_calories;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             tv_food_name = itemView.findViewById(R.id.tv_food_name);
             tv_food_calories = itemView.findViewById(R.id.tv_food_calories);
@@ -79,4 +100,6 @@ public class TodayFoodEatenAdapter extends RecyclerView.Adapter<TodayFoodEatenAd
             notifyDataSetChanged();
         }
     }
+
+
 }

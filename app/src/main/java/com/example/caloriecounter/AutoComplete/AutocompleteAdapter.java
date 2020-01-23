@@ -1,6 +1,7 @@
 package com.example.caloriecounter.AutoComplete;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +26,6 @@ import java.util.Scanner;
 
 public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
     private ArrayList<FoodEntity> foodList;
-    private ProgressBar progressBar;
-
     public AutocompleteAdapter(@NonNull Context context, int resource) {
         super(context, resource);
         foodList = new ArrayList<>();
@@ -48,7 +47,6 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
         Filter myFilter = new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                progressBar.setVisibility(View.VISIBLE);
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
                     try {
@@ -84,7 +82,7 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.auto_complete_layout, parent, false);
 
-        //Autocomplete list item initialization
+        //Dropdown item initialization
         FoodEntity foodEntity = getItem(position);
 
         TextView foodName = view.findViewById(R.id.tv_food_title);
@@ -108,6 +106,7 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
 
     //Return array list of food
     private ArrayList<FoodEntity> getFoodList(String userRequest) throws Exception {
+        
         URL url = buildUrl(userRequest);
 
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -139,7 +138,9 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
         for (int i = 0; i < jsonObject.getJSONArray("hints").length(); i++) {
             JSONObject jsonFood = jsonObject.getJSONArray("hints").getJSONObject(i).getJSONObject("food");
             String name = jsonFood.getString("label");
-
+            
+            //Make first letter capital and rest lowercase
+            name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
 
             //Database doesn't guarantee, that we will have every parameter, so we use try catch
             //And if one parameter is missed, we don't need this result

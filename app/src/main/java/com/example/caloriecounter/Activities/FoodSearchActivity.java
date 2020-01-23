@@ -10,18 +10,17 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.caloriecounter.AutoComplete.LoadingAutoCompleteEditText;
+import com.example.caloriecounter.AutoComplete.AutoCompleteLoading;
 import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.Models.FoodEntity;
 import com.example.caloriecounter.R;
 import com.example.caloriecounter.AutoComplete.AutocompleteAdapter;
 
 public class FoodSearchActivity extends AppCompatActivity {
-    private LoadingAutoCompleteEditText et_foodSearch;
+    private AutoCompleteLoading et_foodSearch;
     private AutocompleteAdapter foodSearchAdapter;
     private String ingestionTime;
     private ProgressBar pb_food_search;
@@ -33,21 +32,26 @@ public class FoodSearchActivity extends AppCompatActivity {
 
         //Action bar settings
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add food");
+        getSupportActionBar().setTitle("Food search");
 
         //Get ingestion time
         ingestionTime = getIntent().getStringExtra(Constants.INGESTION_TIME);
 
         //View initialization;
-        initViews();
+        initAutoComplete();
     }
 
-    private void initViews(){
+    private void initAutoComplete(){
+        //Progress bar initialization
         pb_food_search = findViewById(R.id.pb_food_search);
+        pb_food_search.setVisibility(View.INVISIBLE);
+
         et_foodSearch = findViewById(R.id.et_foodSearch);
+
+        //Set progress bar to autocomplete
+        et_foodSearch.setLoadingIndicator(pb_food_search);
         foodSearchAdapter = new AutocompleteAdapter(getApplicationContext(), android.R.layout.simple_dropdown_item_1line);
         et_foodSearch.setAdapter(foodSearchAdapter);
-        et_foodSearch.setLoadingIndicator(pb_food_search);
 
         et_foodSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -80,10 +84,8 @@ public class FoodSearchActivity extends AppCompatActivity {
     private TextView.OnEditorActionListener b_searchListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            switch (actionId) {
-                case EditorInfo.IME_ACTION_SEARCH:
-                    hideKeyboard(FoodSearchActivity.this);
-                  break;
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideKeyboard(FoodSearchActivity.this);
             }
             return true;
         }
@@ -99,4 +101,5 @@ public class FoodSearchActivity extends AppCompatActivity {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
 }

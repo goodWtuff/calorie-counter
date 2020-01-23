@@ -19,6 +19,7 @@ import com.example.caloriecounter.Activities.MainActivity;
 import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.Database.DatabaseHelper;
 import com.example.caloriecounter.Database.FoodDatabaseContract;
+import com.example.caloriecounter.Models.FoodEntity;
 import com.example.caloriecounter.R;
 import com.example.caloriecounter.ui.Adapters.TodayFoodEatenAdapter;
 
@@ -59,7 +60,6 @@ public class TodayCalorie extends Fragment {
     //Database
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase database;
-    private String date;
 
     //Fragment new instance helper
     public static TodayCalorie newInstance(int recommendedCalorieAmount) {

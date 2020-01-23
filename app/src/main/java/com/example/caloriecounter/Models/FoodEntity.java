@@ -8,13 +8,13 @@ public class FoodEntity {
     private double  proteins;
     private String ingestionName;
 
-    public FoodEntity(String name, double calories, double fats, double carbohydrates, double proteins, String ingestionName) {
+    public FoodEntity(String name, double calories, double fats, double carbohydrates, double proteins, String ingestionTime) {
         this.name = name;
         this.calories = calories;
         this.fats = fats;
         this.carbohydrates = carbohydrates;
         this.proteins = proteins;
-        this.ingestionName = ingestionName;
+        this.ingestionName = ingestionTime;
     }
 
     public String getName() {
