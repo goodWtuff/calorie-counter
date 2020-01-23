@@ -6,49 +6,45 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caloriecounter.Constants;
-import com.example.caloriecounter.Database.DatabaseHelper;
 import com.example.caloriecounter.Database.FoodDatabaseContract;
 import com.example.caloriecounter.R;
 
-public class TodayFoodEatenAdapter extends RecyclerView.Adapter<TodayFoodEatenAdapter.ViewHolder> {
-    private Context context;
+public class IngestionFoodEatenAdapter extends RecyclerView.Adapter<IngestionFoodEatenAdapter.ViewHolder> {
     private Cursor cursor;
+    private Context context;
 
-    public TodayFoodEatenAdapter(Context context, Cursor cursor){
-        this.context = context;
+    public IngestionFoodEatenAdapter(Cursor cursor, Context context) {
         this.cursor = cursor;
+        this.context = context;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.food_item,parent,false);
+        View view = inflater.inflate(R.layout.food_item, parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(!cursor.moveToPosition(position)){
             return;
         }
 
         String name = cursor.getString(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_NAME));
         double calories = cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_CALORIES));
-        long id  = cursor.getLong(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns._ID));
-
-
-        Log.d(Constants.TAG, "onBindViewHolder: " + cursor.getString(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_DATE)));
+        long id = cursor.getLong(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns._ID));
 
         //Make first letter capital and rest lowercase
-        holder.tv_food_name.setText(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
-        holder.tv_food_calories.setText(calories + " kcal");
+        holder.tv_foodName.setText(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
+        holder.tv_foodCalories.setText(calories + " kcal");
         holder.itemView.setTag(id);
 
     }
@@ -58,14 +54,14 @@ public class TodayFoodEatenAdapter extends RecyclerView.Adapter<TodayFoodEatenAd
         return cursor.getCount();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView tv_food_name;
-        private TextView tv_food_calories;
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        private TextView tv_foodName;
+        private TextView tv_foodCalories;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_food_name = itemView.findViewById(R.id.tv_food_name);
-            tv_food_calories = itemView.findViewById(R.id.tv_food_calories);
+            tv_foodCalories = itemView.findViewById(R.id.tv_food_calories);
+            tv_foodName = itemView.findViewById(R.id.tv_food_name);
         }
     }
 

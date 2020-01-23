@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caloriecounter.Activities.FoodSearchActivity;
+import com.example.caloriecounter.Activities.IngestionFoodEatenActivity;
 import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,6 +43,16 @@ public class IngestionListAdapter extends RecyclerView.Adapter<IngestionListAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.tv_name.setText(ingestionList.get(position));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               //Open list of food eaten in this ingestion
+                Intent intent = new Intent(context, IngestionFoodEatenActivity.class);
+                intent.putExtra(Constants.INGESTION_TIME, ingestionList.get(position));
+                context.startActivity(intent);
+            }
+        });
         holder.b_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

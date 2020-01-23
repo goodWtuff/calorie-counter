@@ -29,4 +29,7 @@ public class Constants {
     public static final String ADD_CARBOHYDRATES = "CalorieCounter.FoodSearchActivity.carbohydrates";
     public static final String ADD_PROTEINS= "CalorieCounter.FoodSearchActivity.proteins";
     public static final String INGESTION_TIME = "CalorieCounter.ingestionTime";
+
+    public static final String DATE = "CalorieCounter.date";
+
 }

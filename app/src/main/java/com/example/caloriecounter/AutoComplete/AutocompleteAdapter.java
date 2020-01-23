@@ -1,4 +1,4 @@
-package com.example.caloriecounter.ui.Adapters;
+package com.example.caloriecounter.AutoComplete;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.example.caloriecounter.Constants;
@@ -24,10 +25,15 @@ import java.util.Scanner;
 
 public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
     private ArrayList<FoodEntity> foodList;
+    private ProgressBar progressBar;
 
     public AutocompleteAdapter(@NonNull Context context, int resource) {
         super(context, resource);
         foodList = new ArrayList<>();
+    }
+
+    public void setProgressBar(ProgressBar progressBar) {
+        this.progressBar = progressBar;
     }
 
     @Override
@@ -45,6 +51,7 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
         Filter myFilter = new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
+                progressBar.setVisibility(View.VISIBLE);
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
                     try {
@@ -68,6 +75,8 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
                     notifyDataSetInvalidated();
                 }
             }
+
+
         };
 
         return myFilter;

@@ -3,15 +3,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.caloriecounter.Activities.MainActivity;
 import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.Database.DatabaseHelper;
 import com.example.caloriecounter.Database.FoodDatabaseContract;
@@ -19,6 +23,7 @@ import com.example.caloriecounter.R;
 import com.example.caloriecounter.ui.Adapters.TodayFoodEatenAdapter;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Locale;
 
@@ -51,10 +56,10 @@ public class TodayCalorie extends Fragment {
     private RecyclerView rv_foodTodayEaten;
     private TodayFoodEatenAdapter foodListAdapter;
 
-
     //Database
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase database;
+    private String date;
 
     //Fragment new instance helper
     public static TodayCalorie newInstance(int recommendedCalorieAmount) {
@@ -105,12 +110,8 @@ public class TodayCalorie extends Fragment {
         pb_proteins = v.findViewById(R.id.pb_proteins);
 
         rv_foodTodayEaten = v.findViewById(R.id.rv_todayFoodEaten);
+        //Recycler view initialization
         initRecyclerView();
-
-
-
-
-
     }
 
     //Calculate nutrients recommended amount
@@ -140,6 +141,7 @@ public class TodayCalorie extends Fragment {
         pb_carbohydrates.setCurProcess(carbohydratesAmount);
         pb_fats.setCurProcess(fatsAmount);
         pb_calories.setCurProcess(calorieAmount);
+        Log.d(Constants.TAG, "updateStatisticViews: " + calorieAmount);
     }
 
     //Recycler view initialization
@@ -148,6 +150,27 @@ public class TodayCalorie extends Fragment {
         foodListAdapter = new TodayFoodEatenAdapter(getContext(),getFoodByDate(getDate()));
         foodListAdapter.swapCursor(getFoodByDate(getDate()));
         rv_foodTodayEaten.setAdapter(foodListAdapter);
+
+        //If item swiped, delete it
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                //Delete from database, change cursor and update stats
+               removeItem(viewHolder);
+            }
+        }).attachToRecyclerView(rv_foodTodayEaten);
+    }
+
+    //Delete from database, change cursor and update stats
+    private void removeItem(RecyclerView.ViewHolder viewHolder){
+        databaseHelper.deleteFoodFromDatabase((long) viewHolder.itemView.getTag());
+        foodListAdapter.swapCursor(getFoodByDate(getDate()));
+        updateStatisticViews();
     }
 
     //Get current date and time
@@ -160,9 +183,9 @@ public class TodayCalorie extends Fragment {
 
     //Get food from database by date
     private Cursor getFoodByDate(String date){
-        String selection = FoodDatabaseContract.FoodColumns.COLUMN_DATE + " = " + date;
+        String selection = FoodDatabaseContract.FoodColumns.COLUMN_DATE + " like '%" + date + "%'";
         return database.query(FoodDatabaseContract.FoodColumns.TABLE_NAME,null,
-                null,
+                selection,
                 null,
                 null,
                 null,
@@ -171,6 +194,12 @@ public class TodayCalorie extends Fragment {
 
     //Calculates current nutrients amount according to information from database
     private void calculateCurrentNutrients(Cursor cursor){
+        //Its important to make vars null
+        proteinsAmount = 0;
+        fatsAmount = 0;
+        calorieAmount = 0;
+        carbohydratesAmount = 0;
+
         while (cursor.moveToNext()){
             proteinsAmount += (int) Math.round(cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_PROTEINS)));
             fatsAmount += (int) Math.round(cursor.getDouble(cursor.getColumnIndex(FoodDatabaseContract.FoodColumns.COLUMN_FATS)));
@@ -179,6 +208,8 @@ public class TodayCalorie extends Fragment {
         }
 
     }
+
+
 
 
 }
