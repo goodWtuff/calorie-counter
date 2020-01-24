@@ -4,28 +4,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.Helpers.SharedPreferenceHelper;
 import com.example.caloriecounter.Models.User;
 import com.example.caloriecounter.R;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.caloriecounter.ui.Adapters.SectionsPagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabs;
-
     private int recommendedCalorieAmount;
 
-    private static final String TAG = "MainActivity.tag";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

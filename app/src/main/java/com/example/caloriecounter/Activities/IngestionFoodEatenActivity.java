@@ -1,19 +1,19 @@
 package com.example.caloriecounter.Activities;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
-import android.util.Log;
-
 import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.Database.DatabaseHelper;
 import com.example.caloriecounter.Database.FoodDatabaseContract;
+import com.example.caloriecounter.Fragments.TodayCalorie;
 import com.example.caloriecounter.R;
 import com.example.caloriecounter.ui.Adapters.IngestionFoodEatenAdapter;
 
@@ -33,13 +33,14 @@ public class IngestionFoodEatenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingestion_food_eaten);
 
+        date = TodayCalorie.getDate();
+
         //initialize database
         databaseHelper = new DatabaseHelper(getApplicationContext());
         database = databaseHelper.getWritableDatabase();
 
-        //initialize ingestion time and date
+        //initialize ingestion time
         ingestionTime = getIntent().getStringExtra(Constants.INGESTION_TIME);
-        date = getIntent().getStringExtra(Constants.DATE);
 
         //app bar settings
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -52,8 +53,8 @@ public class IngestionFoodEatenActivity extends AppCompatActivity {
     private void initRecyclerView(){
         rv_ingestionFoodEaten = findViewById(R.id.rv_ingestionFoodEaten);
         rv_ingestionFoodEaten.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        rv_adapter = new IngestionFoodEatenAdapter(getFoodByIngestionAndDate(null, ingestionTime), getApplicationContext());
-        rv_adapter.swapCursor(getFoodByIngestionAndDate(null, ingestionTime));
+        rv_adapter = new IngestionFoodEatenAdapter(getFoodByIngestionAndDate(date, ingestionTime), getApplicationContext());
+        rv_adapter.swapCursor(getFoodByIngestionAndDate(date, ingestionTime));
         rv_ingestionFoodEaten.setAdapter(rv_adapter);
 
 
@@ -68,7 +69,7 @@ public class IngestionFoodEatenActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 //Delete from database, change cursor and update stats
                 databaseHelper.deleteFoodFromDatabase((long) viewHolder.itemView.getTag());
-                rv_adapter.swapCursor(getFoodByIngestionAndDate(null, ingestionTime));
+                rv_adapter.swapCursor(getFoodByIngestionAndDate(date, ingestionTime));
             }
         }).attachToRecyclerView(rv_ingestionFoodEaten);
     }
@@ -76,7 +77,8 @@ public class IngestionFoodEatenActivity extends AppCompatActivity {
 
     //Parse data from database
     private Cursor getFoodByIngestionAndDate(String date, String ingestionTime){
-       String selection = FoodDatabaseContract.FoodColumns.COLUMN_INGESTION_TIME + " like '%" + ingestionTime + "%'";
+       String selection = FoodDatabaseContract.FoodColumns.COLUMN_INGESTION_TIME + " like '%" + ingestionTime + "%'" +
+               " and " + FoodDatabaseContract.FoodColumns.COLUMN_DATE + " like '%" + date + "%'";
        return database.query(FoodDatabaseContract.FoodColumns.TABLE_NAME,null,
                selection,
                null,

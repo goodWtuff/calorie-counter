@@ -1,7 +1,5 @@
 package com.example.caloriecounter;
 
-import android.provider.BaseColumns;
-
 public class Constants {
     private Constants(){}
     public static final String VIEWPAGER_ITEM = "CalorieCounter.MainActivity.viewpager_item";
@@ -31,6 +29,7 @@ public class Constants {
     public static final String ADD_PROTEINS= "CalorieCounter.FoodSearchActivity.proteins";
     public static final String INGESTION_TIME = "CalorieCounter.ingestionTime";
 
-    public static final String DATE = "CalorieCounter.date";
+
+    public static final String DATEPICKER_FRAGMENT = "CalorieCounter.TodayCalorie.datePickerFragment";
 
 }
