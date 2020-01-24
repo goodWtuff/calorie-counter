@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.Helpers.SharedPreferenceHelper;
+import com.example.caloriecounter.Models.User;
 import com.example.caloriecounter.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -51,18 +52,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Counts recommended calorie amount
-    private int countRecommendedCalorieAmount(String gender, int height, int weight, int age){
+    private int countRecommendedCalorieAmount(User user){
         double recommendedCalorie = 0;
         //If user male
-        if(gender.equals("Male")){
-            recommendedCalorie = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+        if(user.getGender().equals("Male")){
+            recommendedCalorie = (10 * user.getWeight()) + (6.25 * user.getHeight()) - (5 * user.getAge()) + 5;
         }
 
         //If user female or probably female
-        else if(gender.equals("Female") || gender.equals("Other")){
-          recommendedCalorie = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+        else if(user.getGender().equals("Female") || user.getGender().equals("Other")){
+          recommendedCalorie = (10 * user.getWeight()) + (6.25 * user.getHeight()) - (5 * user.getAge()) - 161;
         }
-        return (int) Math.round(recommendedCalorie);
+        return (int) Math.round(recommendedCalorie * user.getExerciseCoefficient());
     }
 
 
@@ -77,11 +78,12 @@ public class MainActivity extends AppCompatActivity {
                 int height = data.getIntExtra(Constants.LOGIN_HEIGHT, 0);
                 int weight = data.getIntExtra(Constants.LOGIN_WEIGHT,0);
                 int age = data.getIntExtra(Constants.LOGIN_AGE, 0);
+                double exerciseCoefficient = data.getDoubleExtra(Constants.LOGIN_EXERCISE_COEFFICIENT,0);
 
-                Log.d(TAG, "weight " + weight + " height " + height + " age " + age);
+                User user = new User(gender,weight,height,age,exerciseCoefficient);
 
                 //Set recommended calorie amount
-                recommendedCalorieAmount = countRecommendedCalorieAmount(gender,height,weight, age);
+                recommendedCalorieAmount = countRecommendedCalorieAmount(user);
                 SharedPreferenceHelper.setSharedPreferenceInt(getApplicationContext(),Constants.SHARED_RECOMMENDED_CALORIE,recommendedCalorieAmount);
 
                 //Update view pager

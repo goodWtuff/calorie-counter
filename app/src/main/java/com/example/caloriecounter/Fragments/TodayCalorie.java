@@ -30,6 +30,8 @@ import java.util.Locale;
 
 import io.feeeei.circleseekbar.CircleSeekBar;
 
+import static com.example.caloriecounter.Constants.TAG;
+
 public class TodayCalorie extends Fragment {
     //Calorie, fats, proteins, carbohydrates variables
     private int recommendedCalorieAmount;
@@ -74,9 +76,20 @@ public class TodayCalorie extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //Database initialization
         databaseHelper = new DatabaseHelper(getContext());
         database = databaseHelper.getWritableDatabase();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Calculate nutrients recommended amount
+        calculateNutrientsRecommended();
+
+        //Update statistic
+        updateStatisticViews();
     }
 
     @Override
@@ -141,7 +154,8 @@ public class TodayCalorie extends Fragment {
         pb_carbohydrates.setCurProcess(carbohydratesAmount);
         pb_fats.setCurProcess(fatsAmount);
         pb_calories.setCurProcess(calorieAmount);
-        Log.d(Constants.TAG, "updateStatisticViews: " + calorieAmount);
+
+        foodListAdapter.swapCursor(getFoodByDate(getDate()));
     }
 
     //Recycler view initialization

@@ -12,6 +12,7 @@ public class Constants {
     public static final String LOGIN_HEIGHT = "CalorieCounter.LoginActivity.height";
     public static final String LOGIN_AGE = "CalorieCounter.LoginActivity.age";
     public static final String LOGIN_IS_NEEDED = "CalorieCounter.LoginActivity.isNeeded";
+    public static final String LOGIN_EXERCISE_COEFFICIENT = "CalorieCounter.LoginActivity.exerciseCoefficient";
 
     public static final String SHARED_RECOMMENDED_CALORIE = "CalorieCounter.MainActivity.SHARED_RECOMMENDED_CALORIE";
 

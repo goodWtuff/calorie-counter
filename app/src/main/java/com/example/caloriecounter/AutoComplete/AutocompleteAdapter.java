@@ -31,6 +31,9 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
         foodList = new ArrayList<>();
     }
 
+    public ArrayList<FoodEntity> getFoodList() {
+        return foodList;
+    }
 
     @Override
     public int getCount() {
@@ -138,7 +141,7 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
         for (int i = 0; i < jsonObject.getJSONArray("hints").length(); i++) {
             JSONObject jsonFood = jsonObject.getJSONArray("hints").getJSONObject(i).getJSONObject("food");
             String name = jsonFood.getString("label");
-            
+
             //Make first letter capital and rest lowercase
             name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
 

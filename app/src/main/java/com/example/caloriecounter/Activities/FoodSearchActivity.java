@@ -1,6 +1,8 @@
 package com.example.caloriecounter.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,12 +20,18 @@ import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.Models.FoodEntity;
 import com.example.caloriecounter.R;
 import com.example.caloriecounter.AutoComplete.AutocompleteAdapter;
+import com.example.caloriecounter.ui.Adapters.FoodSearchListAdapter;
 
 public class FoodSearchActivity extends AppCompatActivity {
+    //Autocomplete
     private AutoCompleteLoading et_foodSearch;
-    private AutocompleteAdapter foodSearchAdapter;
-    private String ingestionTime;
+    private AutocompleteAdapter autocompleteAdapterFoodSearch;
+    private static String ingestionTime;
     private ProgressBar pb_food_search;
+
+    //Recycler view
+    private RecyclerView rv_foodSearch;
+    private FoodSearchListAdapter foodSearchListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +58,8 @@ public class FoodSearchActivity extends AppCompatActivity {
 
         //Set progress bar to autocomplete
         et_foodSearch.setLoadingIndicator(pb_food_search);
-        foodSearchAdapter = new AutocompleteAdapter(getApplicationContext(), android.R.layout.simple_dropdown_item_1line);
-        et_foodSearch.setAdapter(foodSearchAdapter);
+        autocompleteAdapterFoodSearch = new AutocompleteAdapter(getApplicationContext(), android.R.layout.simple_dropdown_item_1line);
+        et_foodSearch.setAdapter(autocompleteAdapterFoodSearch);
 
         et_foodSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,6 +94,8 @@ public class FoodSearchActivity extends AppCompatActivity {
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 hideKeyboard(FoodSearchActivity.this);
+                et_foodSearch.dismissDropDown();
+                initRecyclerView();
             }
             return true;
         }
@@ -102,4 +112,14 @@ public class FoodSearchActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    private void initRecyclerView(){
+        rv_foodSearch = findViewById(R.id.rv_foodSearch);
+        foodSearchListAdapter = new FoodSearchListAdapter(getApplicationContext(),autocompleteAdapterFoodSearch.getFoodList());
+        rv_foodSearch.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        rv_foodSearch.setAdapter(foodSearchListAdapter);
+    }
+
+    public static String getIngestionTime() {
+        return ingestionTime;
+    }
 }

@@ -5,9 +5,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,23 +19,29 @@ import com.example.caloriecounter.Constants;
 import com.example.caloriecounter.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private EditText et_enter_height;
     private EditText et_enter_weight;
     private EditText et_enter_age;
+    private Spinner spinner;
+    private String spinnerSelectedItem;
+    private ArrayAdapter<CharSequence> spinnerAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        getSupportActionBar().setTitle("Registration");
+
         et_enter_height = findViewById(R.id.et_enter_height);
         et_enter_weight = findViewById(R.id.et_enter_weight);
         et_enter_age = findViewById(R.id.et_enter_age);
-
         radioGroup = findViewById(R.id.radioGroup);
+        initSpinner();
 
         //Apply all variables and go to main
         FloatingActionButton b_login = findViewById(R.id.b_login);
@@ -79,6 +88,8 @@ public class LoginActivity extends AppCompatActivity {
                 result.putExtra(Constants.LOGIN_HEIGHT, height);
                 result.putExtra(Constants.LOGIN_WEIGHT, weight);
                 result.putExtra(Constants.LOGIN_AGE, age);
+                result.putExtra(Constants.LOGIN_EXERCISE_COEFFICIENT, calculateExerciseCoefficient(spinnerSelectedItem));
+
                 setResult(RESULT_OK, result);
 
                 //Sets, that's login is no more needed
@@ -95,5 +106,38 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void initSpinner(){
+        spinner = findViewById(R.id.spinner_exercise);
+        spinnerAdapter = ArrayAdapter.createFromResource(this,R.array.exercise_answers,R.layout.spinner_exercise_item);
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_exercise_item);
+        spinner.setOnItemSelectedListener(this);
+        spinner.setAdapter(spinnerAdapter);
+    }
+    private double calculateExerciseCoefficient(String spinnerSelectedItem){
+        String[] spinnerItems = getResources().getStringArray(R.array.exercise_answers);
+        double exerciseCoefficient = 1;
 
+        if(spinnerSelectedItem.equals(spinnerItems[0])){
+            exerciseCoefficient = 1.2;
+        } else if(spinnerSelectedItem.equals(spinnerItems[1])){
+            exerciseCoefficient = 1.375;
+        } else if(spinnerSelectedItem.equals(spinnerItems[2])){
+            exerciseCoefficient = 1.55;
+        } else if(spinnerSelectedItem.equals(spinnerItems[3])){
+            exerciseCoefficient = 1.725;
+        } else if(spinnerSelectedItem.equals(spinnerItems[4])){
+            exerciseCoefficient = 1.9;
+        }
+        return exerciseCoefficient;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        spinnerSelectedItem = parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
