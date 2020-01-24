@@ -130,6 +130,7 @@ public class TodayCalorie extends Fragment{
                 showDatePickerDialog();
             }
         });
+        b_setDate.setText(date);
 
         pb_calories = v.findViewById(R.id.pb_calorie);
         pb_fats = v.findViewById(R.id.pb_fats);
@@ -204,7 +205,7 @@ public class TodayCalorie extends Fragment{
     //Get current date and time
     private String getTodayDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd", Locale.getDefault());
+                "yyyy.MM.dd", Locale.getDefault());
         Date date = new Date();
         return dateFormat.format(date);
     }
@@ -265,14 +266,14 @@ public class TodayCalorie extends Fragment{
             if(monthString.length()== 1){
                 monthString = "0" + monthString;
             }
-            date = year + "-" + monthString + "-" +dayOfMonth;
-            Log.d(Constants.TAG, "onDataSet: " + date);
+            date = year + "." + monthString + "." +dayOfMonth;
+            b_setDate.setText(date);
             updateStatisticViews();
         }
     };
 
     private Date parseDateFromString(String date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
         Date currentDate = null;
         try {
             currentDate = sdf.parse(date);

@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     }
     private double calculateExerciseCoefficient(String spinnerSelectedItem){
         String[] spinnerItems = getResources().getStringArray(R.array.exercise_answers);
-        double exerciseCoefficient = 1;
+        double exerciseCoefficient = 1.2;
 
         if(spinnerSelectedItem.equals(spinnerItems[0])){
             exerciseCoefficient = 1.2;

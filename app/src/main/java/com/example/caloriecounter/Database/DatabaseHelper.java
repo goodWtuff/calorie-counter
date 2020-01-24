@@ -2,16 +2,13 @@ package com.example.caloriecounter.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import com.example.caloriecounter.Constants;
-import com.example.caloriecounter.Database.FoodDatabaseContract.*;
-import com.example.caloriecounter.Models.FoodEntity;
 
 import androidx.annotation.Nullable;
+
+import com.example.caloriecounter.Database.FoodDatabaseContract.FoodColumns;
+import com.example.caloriecounter.Models.FoodEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -76,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Get current date and time
     private String getDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd", Locale.getDefault());
+                "yyyy.MM.dd", Locale.getDefault());
         Date date = new Date();
         return dateFormat.format(date);
     }
