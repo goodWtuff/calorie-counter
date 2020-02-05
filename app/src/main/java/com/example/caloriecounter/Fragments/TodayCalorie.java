@@ -32,6 +32,8 @@ import java.util.Locale;
 
 import io.feeeei.circleseekbar.CircleSeekBar;
 
+import static com.example.caloriecounter.Constants.TAG;
+
 public class TodayCalorie extends Fragment{
     //Calorie, fats, proteins, carbohydrates variables
     private int recommendedCalorieAmount;
@@ -83,7 +85,7 @@ public class TodayCalorie extends Fragment{
 
         //Database initialization
         date = getTodayDate();
-        Log.d(Constants.TAG, "onCreate: " + date);
+        Log.d(TAG, "onCreate: " + date);
         databaseHelper = new DatabaseHelper(getContext());
         database = databaseHelper.getWritableDatabase();
     }
@@ -159,7 +161,7 @@ public class TodayCalorie extends Fragment{
     private void updateStatisticViews(){
         //Calculates current nutrients amount according to information from database
         calculateCurrentNutrients(getFoodByDate(date));
-
+        Log.d(TAG, "updateStatisticViews: " + date);
         tv_calorieProgress.setText(calorieAmount+ " out of " + recommendedCalorieAmount);
         tv_carbohydratesProgress.setText(carbohydratesAmount+ " out of " + recommendedCarbohydratesAmount);
         tv_proteinsProgress.setText(proteinsAmount + " out of " + recommendedProteinsAmount);
@@ -263,10 +265,16 @@ public class TodayCalorie extends Fragment{
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
             month += 1;
             String monthString = String.valueOf(month);
+            String dayString = String.valueOf(dayOfMonth);
             if(monthString.length()== 1){
                 monthString = "0" + monthString;
             }
-            date = year + "." + monthString + "." +dayOfMonth;
+            if(dayString.length() == 1){
+                dayString = "0" + dayString;
+            }
+            date = year + "." + monthString + "." +dayString;
+            Log.d(TAG, "onDateSet: " + date);
+
             b_setDate.setText(date);
             updateStatisticViews();
         }

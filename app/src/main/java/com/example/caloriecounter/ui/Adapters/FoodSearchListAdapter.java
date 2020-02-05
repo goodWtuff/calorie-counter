@@ -53,6 +53,7 @@ public class FoodSearchListAdapter extends RecyclerView.Adapter<FoodSearchListAd
                 intent.putExtra(Constants.ADD_NAME, entity.getName());
                 intent.putExtra(Constants.ADD_CARBOHYDRATES, entity.getCarbohydrates());
                 intent.putExtra(Constants.INGESTION_TIME, FoodSearchActivity.getIngestionTime());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 context.startActivity(intent);
             }
